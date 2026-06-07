@@ -32,4 +32,9 @@ export class BookingService {
             guest,
             dateRange,
             bookingDTO.guestCount
-        );
+        );
+
+        await this.bookingRepository.save(booking);
+        return booking;
+    }
+}

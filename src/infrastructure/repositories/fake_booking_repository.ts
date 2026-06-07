@@ -9,4 +9,7 @@ export class FakeBookingRepository implements BookingRepository {
     }
 
     async findById(id: string): Promise<Booking | null> {
-        return this.bookings.find(booking => booking.getId(
+        return this.bookings.find(booking => booking.getId() === id) || null;
+    }
+    
+}

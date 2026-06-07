@@ -32,4 +32,44 @@ describe('Booking Service', () => {
   });
 
   it('deve criar uma reserva com sucesso usando repositório fake', async () => {
-  
+    const mockProperty = {
+      getId: jest.fn().mockReturnValue('1'),
+      isAvailable: jest.fn().mockReturnValue(true),
+      validateMaxGuests: jest.fn(),
+      calculateTotalPrice: jest.fn().mockReturnValue(500),
+      addBooking: jest.fn()
+    } as any;
+
+    const mockUser = {
+      getId: jest.fn().mockReturnValue('1'),
+    } as any;
+
+    const mockDateRange = {
+      getStartDate: jest.fn().mockReturnValue(new Date("2024-12-24")),
+      getEndDate: jest.fn().mockReturnValue(new Date("2024-12-25")),
+      getTotalNights: jest.fn().mockReturnValue(1),
+      overlaps: jest.fn().mockReturnValue(false)
+    } as any;
+
+    mockPropertyService.findPropertyById.mockResolvedValue(mockProperty);
+    mockUserService.findUserById.mockResolvedValue(mockUser);
+
+    const bookingDTO:CreateBookingDTO = {
+      propertyId: '1',
+      guestId: '1',
+      startDate: new Date("2024-12-24"),
+      endDate: new Date("2024-12-25"),
+      guestCount: 2
+    };
+
+    const result = await bookingService.createBooking(bookingDTO);
+
+    expect(result).toBeInstanceOf(Booking);
+    expect(result.getStatus()).toBe('CONFIRMED');
+    expect(result.getTotalPrice()).toBe(500);
+
+    const savedBooking = await fakeBookingRepository.findById(result.getId());
+    expect(savedBooking).not.toBeNull();
+    expect(savedBooking?.getId()).toBe(result.getId());
+  })
+});
