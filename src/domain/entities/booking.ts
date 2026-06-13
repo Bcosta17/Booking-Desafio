@@ -8,7 +8,7 @@ export class Booking {
   private readonly user: User;
   private readonly dateRange: DateRange;
   private readonly guestCount: number;
-  private status: 'CONFIRMED' | 'CANCELLED' = 'CONFIRMED';
+  private status: 'CONFIRMED' | 'CANCELED' = 'CONFIRMED';
   private totalPrice: number;
   constructor(
     id: string,
@@ -58,7 +58,7 @@ export class Booking {
     return this.guestCount;
   } 
 
-  getStatus(): 'CONFIRMED' | 'CANCELLED' {
+  getStatus(): 'CONFIRMED' | 'CANCELED' {
     return this.status;
   }
 
@@ -67,7 +67,7 @@ export class Booking {
   }
 
   cancel(currentDate: Date): void {
-    if (this.status === 'CANCELLED') {
+    if (this.status === 'CANCELED') {
       throw new Error('A reserva já está cancelada');
     }
 
@@ -77,7 +77,7 @@ export class Booking {
     
     const refundRule = RefundRuleFactory.getRefundRule(daysUntilCheckIn);
     this.totalPrice = refundRule.calculateRefund(this.totalPrice);
-    this.status = 'CANCELLED';
+    this.status = 'CANCELED';
   }
 
 }

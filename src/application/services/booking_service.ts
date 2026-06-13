@@ -16,12 +16,12 @@ export class BookingService {
     async createBooking(bookingDTO: CreateBookingDTO): Promise<Booking> {
         const property = await this.propertyService.findPropertyById(bookingDTO.propertyId);
         if (!property) {
-            throw new Error('Propriedade não encontrada');
+            throw new Error('Propriedade não encontrada.');
         }
 
         const guest = await this.userService.findUserById(bookingDTO.guestId);
         if (!guest) {
-            throw new Error('Usuário não encontrado');
+            throw new Error('Usuário não encontrado.');
         }
 
         const dateRange = new DateRange(bookingDTO.startDate, bookingDTO.endDate);
@@ -36,5 +36,13 @@ export class BookingService {
 
         await this.bookingRepository.save(booking);
         return booking;
+    }
+    
+    async cancelBooking(bookingId: string): Promise<void> {
+        const booking = await this.bookingRepository.findById(bookingId);
+
+        booking?.cancel(new Date());
+
+        await this.bookingRepository.save(booking!);
     }
 }

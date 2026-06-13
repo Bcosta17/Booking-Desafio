@@ -74,7 +74,7 @@ describe('Booking Entity', () => {
 
       booking.cancel(currentDate);
 
-      expect(booking.getStatus()).toBe('CANCELLED');
+      expect(booking.getStatus()).toBe('CANCELED');
       expect(booking.getTotalPrice()).toBe(300);
     });
 
@@ -88,7 +88,7 @@ describe('Booking Entity', () => {
 
       booking.cancel(currentDate);
 
-      expect(booking.getStatus()).toBe('CANCELLED');
+      expect(booking.getStatus()).toBe('CANCELED');
       expect(booking.getTotalPrice()).toBe(0);
     });
 
@@ -102,7 +102,7 @@ describe('Booking Entity', () => {
 
       booking.cancel(currentDate);
 
-      expect(booking.getStatus()).toBe('CANCELLED');
+      expect(booking.getStatus()).toBe('CANCELED');
       expect(booking.getTotalPrice()).toBe(300 * 0.5 * 2); 
     });   
 
