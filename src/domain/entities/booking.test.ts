@@ -13,7 +13,7 @@ describe('Booking Entity', () => {
 
       expect(booking.getId()).toBe('1');
       expect(booking.getProperty()).toBe(property);
-      expect(booking.getUser()).toBe(user);
+      expect(booking.getGuest()).toBe(user);
       expect(booking.getDateRange()).toBe(dateRange);
       expect(booking.getGuestCount()).toBe(2);
     });

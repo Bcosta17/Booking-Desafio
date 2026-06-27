@@ -5,7 +5,7 @@ import { RefundRuleFactory } from "../cancellation/refund_rule_factory";
 export class Booking {
   private readonly id: string;
   private readonly property: Property;
-  private readonly user: User;
+  private readonly guest: User;
   private readonly dateRange: DateRange;
   private readonly guestCount: number;
   private status: 'CONFIRMED' | 'CANCELED' = 'CONFIRMED';
@@ -13,7 +13,7 @@ export class Booking {
   constructor(
     id: string,
     property: Property,
-    user: User, 
+    guest: User, 
     dateRange: DateRange,
     guestCount: number
   ) {
@@ -29,7 +29,7 @@ export class Booking {
     
     this.id = id;
     this.property = property;
-    this.user = user;
+    this.guest = guest;
     this.dateRange = dateRange;
     this.guestCount = guestCount;
     this.totalPrice = property.calculateTotalPrice(dateRange);
@@ -46,8 +46,8 @@ export class Booking {
     return this.property;
   }
 
-  getUser(): User {
-    return this.user;
+  getGuest(): User {
+    return this.guest;
   }
 
   getDateRange(): DateRange {
