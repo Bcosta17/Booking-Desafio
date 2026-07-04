@@ -4,7 +4,7 @@ import { UserRepository } from "../../domain/repositories/user_repository";
 import { UserEntity } from "../persistence/entities/user_entity";
 import { UserMapper } from "../persistence/mappers/user_mapper";
 
-export class TypeOrmUSerRepository implements UserRepository {
+export class TypeOrmUserRepository implements UserRepository {
     private readonly repository: Repository<UserEntity>;
 
     constructor(repository: Repository<UserEntity>) {

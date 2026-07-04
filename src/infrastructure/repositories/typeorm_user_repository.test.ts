@@ -1,11 +1,11 @@
 import { User } from "../../domain/entities/user";
 import { DataSource, Repository } from "typeorm";
 import { UserEntity } from "../persistence/entities/user_entity";
-import { TypeOrmUSerRepository } from "./typerorme_user_repository";
+import { TypeOrmUserRepository} from "./typeorm_user_repository";
 
 describe("TypeORM User Repository", () => {
     let dataSource: DataSource;
-    let userRepository: TypeOrmUSerRepository;
+    let userRepository: TypeOrmUserRepository;
     let repository: Repository<UserEntity>;
 
     beforeAll(async () => {
@@ -19,7 +19,7 @@ describe("TypeORM User Repository", () => {
         });
         await dataSource.initialize();
         repository = dataSource.getRepository(UserEntity);
-        userRepository = new TypeOrmUSerRepository(repository);
+        userRepository = new TypeOrmUserRepository(repository);
     })
 
     afterAll(async () => {
