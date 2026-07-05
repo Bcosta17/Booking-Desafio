@@ -50,9 +50,9 @@ beforeAll(async () => {
         bookingController.createBooking(req, res).catch((err) => next(err));
     })
 
-    //app.post('/bookings/:id', (req, res, next) => {
-    //    bookingController.cancelBooking(req, res, next).catch((err) => next(err));
-    //})
+    app.post('/bookings/:id/cancel', (req, res, next) => {
+        bookingController.cancelBooking(req, res).catch((err) => next(err));
+    })
 
 })
 
@@ -147,4 +147,52 @@ describe('BookingController', () => {
        expect(response.body.error).toBe("Propriedade não encontrada.");
             
     })
+
+    it('deve cancelar uma reserva com sucesso', async () => {
+        const response = await request(app).post('/bookings').send({
+            propertyId: "1",
+            guestId: "1",
+            startDate: "2023-01-01",
+            endDate: "2023-01-05",
+            guestCount: 4,
+        })
+
+        const bookingId = response.body.booking.id;
+
+        const cancelResponse = await request(app).post(`/bookings/${bookingId}/cancel`).send({
+            currentDate: "2023-01-01"
+        });
+
+        expect(cancelResponse.status).toBe(200);
+        expect(cancelResponse.body.message).toBe("Booking canceled successfully");
+    })
+
+    it('deve cancelar uma reserva com sucesso', async () => {
+        const response = await request(app).post('/bookings').send({
+            propertyId: "1",
+            guestId: "1",
+            startDate: "2023-01-01",
+            endDate: "2023-01-05",
+            guestCount: 4,
+        })
+
+        const bookingId = response.body.booking.id;
+
+        const cancelResponse = await request(app).post(`/bookings/${bookingId}/cancel`)
+
+        expect(cancelResponse.status).toBe(200);
+        expect(cancelResponse.body.message).toBe("Booking canceled successfully");
+    })
+
+    it('deve retornar erro ao cancelar uma reserva inexistente', async () => {
+
+        const bookingId =999;
+
+        const cancelResponse = await request(app).post(`/bookings/${bookingId}/cancel`)
+
+        expect(cancelResponse.status).toBe(400);
+        expect(cancelResponse.body.error).toBe("Reserva não encontrada.");
+    })
+
+
 })
