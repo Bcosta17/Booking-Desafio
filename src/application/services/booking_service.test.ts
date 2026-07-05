@@ -178,4 +178,11 @@ describe('Booking Service', () => {
     spyFindById.mockRestore();
 
   });
+
+  it('deve lançar um erro ao tentar cancelar uma reserva inexistente', async () => {
+    const nonExistentBookingId = '999'; 
+
+    await expect(bookingService.cancelBooking(nonExistentBookingId)).rejects.toThrow('Reserva não encontrada.');
+  
+  });
 });
