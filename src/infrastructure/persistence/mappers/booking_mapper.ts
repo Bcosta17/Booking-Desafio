@@ -6,10 +6,15 @@ import { PropertyMapper } from "./property_mapper";
 import { UserMapper } from "./user_mapper";
 
 export class BookingMapper {
+
     static toDomain(entity: BookingEntity, property?: Property): Booking {
+
+        if (!entity.id || !entity.property || !entity.guest || !entity.startDate || !entity.endDate || !entity.guestCount) {
+            throw new Error("Dados da reserva incompletos");
+        }
+
         const guest = UserMapper.toDomain(entity.guest);
         const dateRange = new DateRange(entity.startDate, entity.endDate)
-
         const booking = new Booking(
             entity.id,
             property || PropertyMapper.toDomain(entity.property),
@@ -25,17 +30,22 @@ export class BookingMapper {
     }
 
     static toPersistence(domain: Booking): BookingEntity {
-        const entity = new BookingEntity();
-        entity.id = domain.getId();
-        entity.property = PropertyMapper.toPersistence(domain.getProperty());
-        entity.guest = UserMapper.toPersistence(domain.getGuest());
-        entity.startDate = domain.getDateRange().getStartDate();
-        entity.endDate = domain.getDateRange().getEndDate();
-        entity.guestCount = domain.getGuestCount();
-        entity.totalPrice = domain.getTotalPrice();
-        entity.status = domain.getStatus();
+
+        if (!domain.getId() || !domain.getProperty() || !domain.getGuest() || !domain.getDateRange().getStartDate() || !domain.getDateRange().getEndDate() || !domain.getGuestCount()) {
+            throw new Error("Dados da reserva incompletos");
+        }
         
-        return entity;
+        const booking = new BookingEntity();
+        booking.id = domain.getId();
+        booking.property = PropertyMapper.toPersistence(domain.getProperty());
+        booking.guest = UserMapper.toPersistence(domain.getGuest());
+        booking.startDate = domain.getDateRange().getStartDate();
+        booking.endDate = domain.getDateRange().getEndDate();
+        booking.guestCount = domain.getGuestCount();
+        booking.totalPrice = domain.getTotalPrice();
+        booking.status = domain.getStatus();
+        
+        return booking;
     }
 
 }

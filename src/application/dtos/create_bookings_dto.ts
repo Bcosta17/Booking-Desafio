@@ -5,3 +5,4 @@ export interface CreateBookingDTO {
   endDate: Date;
   guestCount: number;
 }
+
