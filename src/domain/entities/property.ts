@@ -22,6 +22,10 @@ export class Property {
       throw new Error('O número máximo de hóspedes deve ser maior que zero');
     }
 
+    if(basePricePerNight <= 0) {
+      throw new Error('O preço base por noite deve ser maior que zero')
+    }
+ 
     this.id = id;
     this.name = name;
     this.description = description;

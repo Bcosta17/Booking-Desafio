@@ -41,6 +41,11 @@ describe('Property Entity', () => {
         }).toThrow('Número máximo de hóspedes excedido. Máximo permitido é 5');
     })
 
+    it ('deve lançar um erro se o preço base por noite for zero ou negativo', () => {
+        expect(() => new Property('1', 'Casa de Praia', 'Descrição', 2, 0)).toThrow('O preço base por noite deve ser maior que zero');
+        expect(() => new Property('1', 'Casa de Praia', 'Descrição', 2, -1)).toThrow('O preço base por noite deve ser maior que zero');
+    });
+
     it('não deve aplicar desconto para estadias menores que 7 noites', () => {
         const property = new Property('1', 'Apartamento', 'Apartamento confortável', 2, 100);
         const dateRange = new DateRange(new Date('2024-07-01'), new Date('2024-07-05')); // 4 noites
