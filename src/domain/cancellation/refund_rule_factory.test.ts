@@ -5,8 +5,11 @@ import { RefundRuleFactory } from "./refund_rule_factory";
 
 describe("Refund Rule Factory", () => {
     it("deve retornar FullRefund quando a reserva for cancelada com mais de 7 dias de antecedência", () => {
-        const startDate = new Date("2026-10-07")
         const currentDate = new Date()
+
+        const startDate = new Date()
+        startDate.setDate(currentDate.getDate() + 7)
+        
         const checkInDate = startDate;
         const timeDiff = checkInDate.getTime() - currentDate.getTime();
         const daysUntilCheckIn = Math.ceil(timeDiff / (1000 * 3600 * 24));
@@ -17,9 +20,12 @@ describe("Refund Rule Factory", () => {
     expect(refundRule.calculateRefund(1000)).toBe(0)
     })
 
-    it("deve retornar PartialRefund quando a reserva for cancelada entre 1 e 7 dias de antecedência", () => {
-        const startDate = new Date("2026-07-15")
+    it("deve retornar PartialRefund quando a reserva for cancelada entre 1 e 7 dias de antecedência", () => { 
         const currentDate = new Date()
+        
+        const startDate = new Date()
+        startDate.setDate(currentDate.getDate() + 5)
+        
         const checkInDate = startDate;
         const timeDiff = checkInDate.getTime() - currentDate.getTime();
         const daysUntilCheckIn = Math.ceil(timeDiff / (1000 * 3600 * 24));
@@ -31,9 +37,8 @@ describe("Refund Rule Factory", () => {
     })
 
     it("deve retornar NoRefund quando a reserva for cancelada com menos de 1 dia de antecedência", () => {
-        const startDate = new Date("2026-07-12")
         const currentDate = new Date()
-        const checkInDate = startDate;
+        const checkInDate = currentDate;
         const timeDiff = checkInDate.getTime() - currentDate.getTime();
         const daysUntilCheckIn = Math.ceil(timeDiff / (1000 * 3600 * 24));
     
