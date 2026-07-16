@@ -12,3 +12,7 @@
 \`\`\`
 npm install
 \`\`\`
+### 3. Rodar os teste
+\`\`\`
+npm test
+\`\`\`
